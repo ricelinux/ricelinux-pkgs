@@ -1,17 +1,25 @@
 #!/bin/bash
 
+if [ $UID -eq 0 ]; then
+    echo "You can't run this script as root."
+    exit
+fi
 
-REPOS=( https://github.com/ricelinux/riceman )
+ENDPOINT=https://raw.githubusercontent.com/
+
+REPOS=( ricelinux/riceman )
 
 rm -rf build
-rm -rf x86_64/*.pkg.tar.zst
+rm -rf x86_64/*
 
 mkdir build
 cd build
 
 for REPO_NUM in "${!REPOS[@]}"; do
-    git clone ${REPOS[$REPO_NUM]} $REPO_NUM
+    mkdir $REPO_NUM
     cd $REPO_NUM
+    wget https://raw.githubusercontent.com/${REPOS[$REPO_NUM]}/master/PKGBUILD
+    
     makepkg -s
     cp *.pkg.tar.zst ../../x86_64
     cd ../
