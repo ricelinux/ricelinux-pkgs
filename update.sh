@@ -18,7 +18,7 @@ cd build
 for REPO_NUM in "${!REPOS[@]}"; do
     mkdir $REPO_NUM
     cd $REPO_NUM
-    wget https://raw.githubusercontent.com/${REPOS[$REPO_NUM]}/master/PKGBUILD
+    curl -O https://raw.githubusercontent.com/${REPOS[$REPO_NUM]}/master/PKGBUILD
     
     makepkg -s
     cp *.pkg.tar.zst ../../x86_64
