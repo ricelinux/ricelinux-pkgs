@@ -1,5 +1,15 @@
 #!/bin/bash
 
+function yes_or_no {
+    while true; do
+        read -p "$* [y/n]: " yn
+        case $yn in
+            [Yy]*) return 0  ;;  
+            [Nn]*) echo "Aborted" ; return  1 ;;
+        esac
+    done
+}
+
 if [ $UID -eq 0 ]; then
     echo "You can't run this script as root."
     exit
@@ -28,3 +38,5 @@ done
 cd ../x86_64
 
 repo-add -n -R ricelinux.db.tar.gz *.pkg.tar.zst
+
+yes_or_no "Do you want to push the changes to Github?" && git add -A && git commit -m "Updated packages" && git push
