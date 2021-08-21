@@ -15,7 +15,7 @@ if [ $UID -eq 0 ]; then
     exit
 fi
 
-ENDPOINT=https://raw.githubusercontent.com/
+ENDPOINT=https://github.com
 
 REPOS=( ricelinux/riceman )
 
@@ -26,9 +26,8 @@ mkdir build
 cd build
 
 for REPO_NUM in "${!REPOS[@]}"; do
-    mkdir $REPO_NUM
+    git clone $ENDPOINT/${REPOS[$REPO_NUM]} $REPO_NUM
     cd $REPO_NUM
-    curl -O -H 'Cache-Control: no-cache'  https://raw.githubusercontent.com/${REPOS[$REPO_NUM]}/master/PKGBUILD
     makepkg -s
     cp *.pkg.tar.gz ../../x86_64
     cd ../
