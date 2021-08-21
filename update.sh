@@ -29,7 +29,6 @@ for REPO_NUM in "${!REPOS[@]}"; do
     mkdir $REPO_NUM
     cd $REPO_NUM
     curl -O -H 'Cache-Control: no-cache'  https://raw.githubusercontent.com/${REPOS[$REPO_NUM]}/master/PKGBUILD
-    
     makepkg -s
     cp *.pkg.tar.gz ../../x86_64
     cd ../
@@ -37,6 +36,6 @@ done
 
 cd ../x86_64
 
-repo-add -n -R ricelinux.db.tar.gz *.pkg.tar.zst
+repo-add -n -R ricelinux.db.tar.gz *.pkg.tar.gz
 
 yes_or_no "Do you want to push the changes to Github?" && git add -A && git commit -m "Updated packages" && git push
